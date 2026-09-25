@@ -26,8 +26,8 @@ Usage: install.sh [options]
 
 Fetches the nvim sub-repo and symlinks the personal configs into place:
 
-  ~/.tmux.conf              -> <personal-config-dir>/.tmux.conf
-  ${XDG_CONFIG_HOME:-~/.config}/nvim -> <personal-config-dir>/nvim
+  ~/.tmux.conf                        -> <personal-config-dir>/.tmux.conf
+  ${XDG_CONFIG_HOME:-~/.config}/nvim  -> <personal-config-dir>/nvim
 
 Options:
   -f, --force       Move anything blocking a symlink aside to
