@@ -3,11 +3,8 @@
 # Install the personal config: fetch the nvim sub-repo and symlink
 # tmux + neovim config into place.
 #
-# The personal config directory is resolved in this order:
-#   1. --dir <path>
-#   2. $PERSONAL_CONFIG_DIR
-#   3. the directory holding this script   <-- default, so the repo works
-#                                              from wherever it is cloned
+# The personal config directory is the one holding this script, so the
+# repo works from wherever it is cloned.
 #
 # Written for both GNU and BSD/macOS userland: no readlink -f, ln -T,
 # chmod --reference or date -r.
@@ -18,7 +15,6 @@ TPM_URL=https://github.com/tmux-plugins/tpm
 
 FORCE=
 DRY_RUN=
-CONFIG_DIR=${PERSONAL_CONFIG_DIR:-}
 
 usage() {
 	cat <<'USAGE'
@@ -34,8 +30,6 @@ Options:
                     <path>.backup.<timestamp>, then link over it. Without
                     this, blockers are reported and nothing is changed.
   -n, --dry-run     Print what would happen; change nothing.
-      --dir <path>  Personal config directory. Defaults to
-                    $PERSONAL_CONFIG_DIR, else this script's own directory.
   -h, --help        Show this help.
 USAGE
 }
@@ -44,15 +38,6 @@ while [ $# -gt 0 ]; do
 	case $1 in
 		-f|--force)   FORCE=yes ;;
 		-n|--dry-run) DRY_RUN=yes ;;
-		--dir)
-			if [ $# -lt 2 ]; then
-				echo "install: --dir needs a path" >&2
-				exit 2
-			fi
-			CONFIG_DIR=$2
-			shift
-			;;
-		--dir=*)      CONFIG_DIR=${1#--dir=} ;;
 		-h|--help)    usage; exit 0 ;;
 		*)
 			echo "install: unknown option: $1" >&2
@@ -65,14 +50,9 @@ done
 
 # ---------------------------------------------------------------- resolve paths
 
-script_dir=$(cd -- "$(dirname -- "$0")" && pwd -P)
-config_dir_given=${CONFIG_DIR:-$script_dir}
-CONFIG_DIR=$(cd -- "$config_dir_given" 2>/dev/null && pwd -P) || {
-	echo "install: not a directory: $config_dir_given" >&2
-	exit 1
-}
+CONFIG_DIR=$(cd -- "$(dirname -- "$0")" && pwd -P)
 
-# guard against a wrong --dir quietly linking nonsense into $HOME
+# guard against a copied or relocated script quietly linking nonsense into $HOME
 if [ ! -f "$CONFIG_DIR/.tmux.conf" ]; then
 	echo "install: $CONFIG_DIR does not look like the personal config repo" >&2
 	echo "install: expected to find .tmux.conf there" >&2
