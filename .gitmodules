@@ -1,0 +1,4 @@
+[submodule "nvim"]
+	path = nvim
+	url = https://github.com/albingeorge/kickstart-modular.nvim.git
+	branch = albin
