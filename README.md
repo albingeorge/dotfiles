@@ -1,7 +1,6 @@
-# Personal config
+# Dotfiles
 
-Personal tmux and neovim config, kept separate from the company-managed
-`~/dotfiles` repo.
+Personal dotfiles collection.
 
 | what | lives here | linked to |
 | --- | --- | --- |
@@ -15,8 +14,8 @@ tracking the `albin` branch.
 ## Setting up a new machine
 
 ```sh
-git clone --recurse-submodules <this-repo-url> ~/.config.personal
-~/.config.personal/install.sh
+git clone --recurse-submodules <this-repo-url> ~/dotfiles.personal
+~/dotfiles.personal/install.sh
 ```
 
 `install.sh` fetches the nvim sub-repo, creates both symlinks, and clones
@@ -26,17 +25,11 @@ tpm the plugin lines in `.tmux.conf` do nothing.
 
 It is safe to re-run: anything already correct is reported as `ok` and skipped.
 
-### It doesn't have to live at `~/.config.personal`
+### It doesn't have to live at `~/dotfiles.personal`
 
-By default the script uses **its own directory** as the personal config
-directory, so clone the repo wherever you like and it just works. To point it
-somewhere else explicitly:
-
-```sh
-./install.sh --dir /path/to/personal/config
-# or
-PERSONAL_CONFIG_DIR=/path/to/personal/config ./install.sh
-```
+The script always uses **its own directory** as the personal config directory,
+so clone the repo wherever you like and it just works. The paths in this README
+assume `~/dotfiles.personal`; substitute your own.
 
 ### Files already in the way
 
@@ -69,14 +62,14 @@ git add -A && git commit && git push
 Then record the new commit in this repo:
 
 ```sh
-cd ~/.config.personal
+cd ~/dotfiles.personal
 git add nvim && git commit -m "chore: bump nvim config"
 ```
 
 To pull the latest `albin` into an existing checkout:
 
 ```sh
-git -C ~/.config.personal submodule update --remote --merge nvim
+git -C ~/dotfiles.personal submodule update --remote --merge nvim
 ```
 
 ## Adding another config
@@ -87,3 +80,8 @@ Add a line to the symlink list near the bottom of `install.sh`:
 link_path "$CONFIG_DIR/.tmux.conf" "$HOME/.tmux.conf"
 link_path "$CONFIG_DIR/nvim"       "$XDG/nvim"
 ```
+
+## Coding agents
+
+Instructions for AI coding agents live in [`AGENTS.md`](AGENTS.md).
+`CLAUDE.md` just imports it, so Claude Code picks up the same rules.
