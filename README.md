@@ -4,13 +4,27 @@ Personal dotfiles collection.
 
 | what | lives here | linked to |
 | --- | --- | --- |
-| tmux | `.tmux.conf` | `~/.tmux.conf` |
-| neovim | `nvim/` (sub-repo) | `${XDG_CONFIG_HOME:-~/.config}/nvim` |
+| [tmux](https://github.com/tmux/tmux) | `.tmux.conf` | `~/.tmux.conf` |
+| [neovim](https://neovim.io/) | `nvim/` (sub-repo) | `${XDG_CONFIG_HOME:-~/.config}/nvim` |
 | zsh | `.zshrc` | `~/.zshrc` (see below) |
 
 `nvim/` is a git submodule of
 [albingeorge/kickstart-modular.nvim](https://github.com/albingeorge/kickstart-modular.nvim)
 tracking the `albin` branch.
+
+## Prerequisites
+
+Before running `install.sh`, make sure these are installed:
+
+1. [nvim](https://github.com/neovim/neovim/blob/master/INSTALL.md) — the
+   symlinked config in `nvim/` needs the editor itself to be on `$PATH`.
+2. [tmux](https://github.com/tmux/tmux/wiki/Installing) &
+   [tmux plugin manager (tpm)](https://github.com/tmux-plugins/tpm) — `tmux`
+   itself needs to be installed manually; `install.sh` takes care of cloning
+   tpm for you (see below).
+3. [Rust toolchain](https://www.rust-lang.org/tools/install) (`cargo`) — nvim
+   needs it to build treesitter parsers. `.zshrc` puts `~/.cargo/bin` on
+   `$PATH` for you once it's installed.
 
 ## Setting up a new machine
 
@@ -19,10 +33,12 @@ git clone --recurse-submodules <this-repo-url> ~/dotfiles.personal
 ~/dotfiles.personal/install.sh
 ```
 
-`install.sh` fetches the nvim sub-repo, creates both symlinks, and clones
+`install.sh` fetches the nvim sub-repo, creates both symlinks, clones
 [tpm](https://github.com/tmux-plugins/tpm) into
-`${XDG_CONFIG_HOME:-~/.config}/tmux/plugins/tpm` if it isn't there yet — without
-tpm the plugin lines in `.tmux.conf` do nothing.
+`${XDG_CONFIG_HOME:-~/.config}/tmux/plugins/tpm` if it isn't there yet, and runs
+tpm's headless installer (`tpm/bin/install_plugins`) so the plugins listed in
+`.tmux.conf` are already installed — no need to open tmux and press
+`<prefix> I` on a fresh machine.
 
 It is safe to re-run: anything already correct is reported as `ok` and skipped.
 

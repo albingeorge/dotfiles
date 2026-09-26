@@ -220,6 +220,20 @@ install_tpm() {
 	run git clone "$TPM_URL" "$tpm_dir"
 }
 
+install_tpm_plugins() {
+	# tpm's headless installer: runs the same install tpm does on
+	# prefix + I, so plugins are ready without that manual first step
+	local install_plugins=$XDG/tmux/plugins/tpm/bin/install_plugins
+
+	if [ ! -x "$install_plugins" ]; then
+		info "  skip      $install_plugins not found"
+		return 0
+	fi
+
+	info "  run       $install_plugins"
+	run "$install_plugins"
+}
+
 # ------------------------------------------------------------------------- main
 
 info "personal config : $CONFIG_DIR"
@@ -241,6 +255,10 @@ link_or_source_zshrc "$CONFIG_DIR/.zshrc" "$HOME/.zshrc"
 info ""
 info "tmux plugin manager:"
 install_tpm
+
+info ""
+info "tmux plugins:"
+install_tpm_plugins
 
 if [ ${#blockers[@]} -gt 0 ]; then
 	info ""

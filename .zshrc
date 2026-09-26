@@ -20,6 +20,10 @@ if [ -z "$zshrc_custom_sourced" ] && [ -f ~/.zshrc.custom ]; then
     source ~/.zshrc.custom
 fi
 
+# Rust toolchain
+# nvim requires treesitter, which needs to be built by Rust toolchain
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+
 # Git Integration
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
