@@ -25,6 +25,9 @@ Before running `install.sh`, make sure these are installed:
 3. [Rust toolchain](https://www.rust-lang.org/tools/install) (`cargo`) — nvim
    needs it to build treesitter parsers. `.zshrc` puts `~/.cargo/bin` on
    `$PATH` for you once it's installed.
+4. [tree-sitter CLI](https://github.com/tree-sitter/tree-sitter/tree/master/cli)
+   — install it with `cargo install tree-sitter-cli`, not from npm; the npm
+   package generally doesn't work with nvim's treesitter setup.
 
 ## Setting up a new machine
 
