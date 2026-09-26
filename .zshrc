@@ -10,6 +10,16 @@ personal_dotfiles_dir=${${(%):-%x}:A:h}
 
 source "${personal_dotfiles_dir}/work_log.sh"
 
+# On this machine, ~/.zshrc sources ~/.zshrc.custom before this file. On a
+# machine where ~/.zshrc points straight at this file (e.g. the kvm machine),
+# nothing sources ~/.zshrc.custom first, so source it here instead.
+# zshrc_custom_sourced (set inside it) guards against sourcing it twice.
+# Note: .zshrc.custom would primarily contain company specific configs
+# for example, define COREPACK_NPM_REGISTRY which points to internal registry.
+if [ -z "$zshrc_custom_sourced" ] && [ -f ~/.zshrc.custom ]; then
+    source ~/.zshrc.custom
+fi
+
 # Git Integration
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
@@ -19,5 +29,9 @@ zstyle ':vcs_info:git:*' formats '(%b)'
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 
-# Prompt (aka PS1)
+# Prompt (aka PS1), prefixed with "[VM] " on a VM. _on_vm comes from
+# ~/.zshrc.custom, sourced above; if it isn't set, no prefix
 PROMPT="%B%F{014}%n%f%b %F{015}in%f %B%F{011}%2~%f%b \$vcs_info_msg_0_ $ "
+if [[ $_on_vm == 1 ]]; then
+    PROMPT="[VM] $PROMPT"
+fi
