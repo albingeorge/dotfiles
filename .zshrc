@@ -22,7 +22,6 @@ fi
 
 # Rust toolchain
 # nvim requires treesitter, which needs to be built by Rust toolchain
-export PATH="$HOME/.local/bin:$PATH"
 if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
