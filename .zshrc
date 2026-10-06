@@ -9,6 +9,7 @@
 personal_dotfiles_dir=${${(%):-%x}:A:h}
 
 source "${personal_dotfiles_dir}/work_log.sh"
+source "${personal_dotfiles_dir}/git_aliases.sh"
 
 # On this machine, ~/.zshrc sources ~/.zshrc.custom before this file. On a
 # machine where ~/.zshrc points straight at this file (e.g. the kvm machine),
