@@ -47,3 +47,12 @@ fi
 # Bind Control-r to fzf history widget
 eval "$(fzf --zsh)"
 bindkey '^R' fzf-history-widget
+
+# Fix tmux retain ssh-agent socket when reconnected
+if [ -n "${TMUX:-}" ] && command -v tmux >/dev/null 2>&1; then
+    _sock="$(tmux show-environment -g SSH_AUTH_SOCK 2>/dev/null | sed -n 's/^SSH_AUTH_SOCK=//p')"
+    if [ -S "$_sock" ]; then
+        export SSH_AUTH_SOCK="$_sock"
+    fi
+    unset _sock
+fi
