@@ -42,3 +42,8 @@ PROMPT="%B%F{014}%n%f%b %F{015}in%f %B%F{011}%2~%f%b \$vcs_info_msg_0_ $ "
 if [[ $_on_vm == 1 ]]; then
     PROMPT="[VM] $PROMPT"
 fi
+
+
+# Bind Control-r to fzf history widget
+echo 'eval "$(fzf --zsh)"' >> ~/.zshrc
+echo "bindkey '^R' fzf-history-widget" >> ~/.zshrc
