@@ -45,5 +45,5 @@ fi
 
 
 # Bind Control-r to fzf history widget
-echo 'eval "$(fzf --zsh)"' >> ~/.zshrc
-echo "bindkey '^R' fzf-history-widget" >> ~/.zshrc
+eval "$(fzf --zsh)"
+bindkey '^R' fzf-history-widget
