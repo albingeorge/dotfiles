@@ -43,6 +43,14 @@ if [[ $_on_vm == 1 ]]; then
     PROMPT="[VM] $PROMPT"
 fi
 
+# History sharing across tmux windows
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+HISTSIZE=5000
+SAVEHIST=5000
+unsetopt inc_append_history
+unsetopt inc_append_history_time
+setopt share_history
+setopt hist_ignore_dups
 
 # Bind Control-r to fzf history widget
 eval "$(fzf --zsh)"
