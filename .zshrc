@@ -57,10 +57,16 @@ eval "$(fzf --zsh)"
 bindkey '^R' fzf-history-widget
 
 # Fix tmux retain ssh-agent socket when reconnected
-if [ -n "${TMUX:-}" ] && command -v tmux >/dev/null 2>&1; then
-    _sock="$(tmux show-environment -g SSH_AUTH_SOCK 2>/dev/null | sed -n 's/^SSH_AUTH_SOCK=//p')"
-    if [ -S "$_sock" ]; then
-        export SSH_AUTH_SOCK="$_sock"
-    fi
-    unset _sock
+_tmux_refresh_ssh_auth_sock() {
+  local value
+  value=$(tmux show-environment SSH_AUTH_SOCK 2>/dev/null) || return
+  [[ $value == SSH_AUTH_SOCK=* ]] || return
+
+  local sock=${value#SSH_AUTH_SOCK=}
+  [[ -S $sock ]] && export SSH_AUTH_SOCK=$sock
+}
+
+if [[ -n ${TMUX-} ]]; then
+  typeset -ga precmd_functions
+  precmd_functions+=(_tmux_refresh_ssh_auth_sock)
 fi
